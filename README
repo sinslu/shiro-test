@@ -1,0 +1,86 @@
+1. What is Apache Shiro?
+    Apache Shiro is a powerful and easy-to-use Java security framework 
+that performs `authentication`, `authorization`, `cryptography`, and `session management` 
+and can be used to secure any application - from the command line applications, 
+mobile applications to the largest web and enterprise applications.
+    Authentication - proving user identity, often called user ‘login’.
+    Authorization - access control
+    Cryptography - protecting or hiding data from prying eyes
+    Session Management - per-user time-sensitive state
+    
+2. Why would you use Apache Shiro today?   
+    Easy To Use - Ease of use is the project’s ultimate goal. 
+                  Application security can be extremely confusing and frustrating and thought of as a ‘necessary evil’. 
+                  If you make it so easy to use that novice programmers can start using it, it doesn’t have to be painful anymore.
+    Comprehensive - There is no other security framework with the breadth of scope that Apache Shiro claims, so it can likely be your ‘one stop shop’ for your security needs.
+    Flexible - Apache Shiro can work in any application environment. 
+                While it works in web, EJB, and IoC environments it does not require them. 
+                Nor does Shiro mandate any specification or even have many dependencies.
+    Web Capable - Apache Shiro has fantastic web application support, allowing you to create flexible security policies based on application URLs and web protocols (e.g. REST), 
+                while also providing a set of JSP libraries to control page output.
+    Pluggable - Shiro’s clean API and design patterns make it easy to integrate with many other frameworks and applications. 
+                You’ll see Shiro integrated seamlessly with frameworks like Spring, Grails, Wicket, Tapestry, Mule, Apache Camel, Vaadin, and many others.
+    Supported - Apache Shiro is part of the Apache Software Foundation, an organization proven to act in the best interest of its community. 
+                The project development and user groups have friendly citizens ready to help. 
+                Commercial companies like Katasoft also provide professional support and services if desired.
+                
+3.Core Concepts: Subject, SecurityManager, and Realms
+    
+  Once you acquire the Subject, you immediately have access to 90% of everything you’d want to do with Shiro for the current user, 
+  such as login, logout, access their session, execute authorization checks, and more - but more on this later.
+    
+   Subject currentUser = SecurityUtils.getSubject();      
+   
+       
+       
+4. Authentication
+   1).Collect the user’s identifying information, called principals, and supporting proof of identity, called credentials.
+   2).Submit the principals and credentials to the system.
+   3).If the submitted credentials match what the system expects for that user identity (principal), the user is considered authenticated. If they don’t match, the user is not considered authenticated.  
+     //1. Acquire submitted principals and credentials:
+     AuthenticationToken token =
+     new UsernamePasswordToken(username, password);
+     //2. Get the current Subject:
+     Subject currentUser = SecurityUtils.getSubject();
+     //3. Login:
+     try {
+         currentUser.login(token);
+     } catch (IncorrectCredentialsException ice) { …
+     } catch (LockedAccountException lae) { …
+     }
+     …
+     catch (AuthenticationException ae) {…
+     } 
+
+5. Authorization
+    1).Role Check
+    if ( subject.hasRole(“administrator”) ) {
+    //show the ‘Create User’ button
+    } else {
+    //grey-out the button?
+    } 
+    
+    2).Permission Check
+    
+    if ( subject.isPermitted(“user:create”) ) {
+        //show the ‘Create User’ button
+    } else {
+        //grey-out the button?
+    } 
+    
+    3).Instance-Level Permission Check
+    
+    if ( subject.isPermitted(“user:delete:jsmith”) ) {
+        //delete the ‘jsmith’ user
+    } else {
+        //don’t delete ‘jsmith’
+    }
+
+6. Session Management
+
+    Session session = subject.getSession();
+    Session session = subject.getSession(boolean create);
+    
+7.Cryptography
+    
+    
