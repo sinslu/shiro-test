@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -29,11 +30,10 @@ public class ShiroController {
         return "a";
     }
     @RequestMapping("b")
-    public String testB(){
+    public String testB(Model model){
         new Thread(()->{
             System.out.println(SecurityUtils.getSubject().getPrincipal());
         }).start();
-
         return "b";
     }
     @RequestMapping("login")
@@ -46,6 +46,7 @@ public class ShiroController {
                 result.put("retCode","000001");
             }else{
                 UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+                token.setRememberMe(true);
                 SecurityUtils.getSubject().login(token);
                 result.put("retCode","000000");
                 result.put("retDesc", "登录成功");
@@ -61,4 +62,10 @@ public class ShiroController {
         return result.toJSONString();
     }
 
+    @RequestMapping("logout")
+    @ResponseBody
+    public String logout(){
+        SecurityUtils.getSubject().logout();
+        return "退出成功";
+    }
 }

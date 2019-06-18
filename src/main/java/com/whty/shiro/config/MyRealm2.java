@@ -8,7 +8,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 /**
  * Created by xsl on 2019/6/12.
  */
-public class MyRealm extends AuthorizingRealm {
+public class MyRealm2 extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         return null;
